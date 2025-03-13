@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar Propiedad</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1 id="formTitle">Añadir Propiedad</h1>
+<form id="propertyForm">
+    <input type="hidden" id="propertyId">
+    <label>Dirección: <input type="text" id="address" required></label>
+    <label>Precio: <input type="number" id="price" required></label>
+    <label>Tamaño (m²): <input type="number" id="size" required></label>
+    <label>Descripción: <textarea id="description" required></textarea></label>
+    <button type="submit">Guardar</button>
+</form>
+<button onclick="location.href='index.html'">Volver</button>
+
+<script src="script.js"></script>
+</body>
+</html>

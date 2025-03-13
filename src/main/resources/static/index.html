@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2 id="formTitle">Iniciar Sesión</h2>
+        <form id="authForm">
+            <label>Correo Electrónico:<input type="email" id="email" required></label>
+            <label>Contraseña:<input type="password" id="password" required></label>
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+        <p id="toggleForm">¿No tienes cuenta? <a href="#" onclick="toggleForm()">Regístrate aquí</a></p>
+    </div>
+    
+    <script>
+        function toggleForm() {
+            const formTitle = document.getElementById("formTitle");
+            const submitButton = document.querySelector("button");
+            const toggleText = document.getElementById("toggleForm");
+            
+            if (formTitle.innerText === "Iniciar Sesión") {
+                formTitle.innerText = "Registrarse";
+                submitButton.innerText = "Registrarse";
+                toggleText.innerHTML = "¿Ya tienes cuenta? <a href='#' onclick='toggleForm()'>Inicia sesión aquí</a>";
+            } else {
+                formTitle.innerText = "Iniciar Sesión";
+                submitButton.innerText = "Iniciar Sesión";
+                toggleText.innerHTML = "¿No tienes cuenta? <a href='#' onclick='toggleForm()'>Regístrate aquí</a>";
+            }
+        }
+        
+        document.getElementById("authForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            
+            if (document.getElementById("formTitle").innerText === "Iniciar Sesión") {
+                login(email, password);
+            } else {
+                register(email, password);
+            }
+        });
+        
+        function login(email, password) {
+            fetch("/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = "home.html";
+                } else {
+                    alert("Credenciales incorrectas");
+                }
+            })
+            .catch(error => console.error("Error en el login:", error));
+        }
+        
+        function register(email, password) {
+            fetch("/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Registro exitoso. Ahora puedes iniciar sesión");
+                    toggleForm();
+                } else {
+                    alert("Error en el registro");
+                }
+            })
+            .catch(error => console.error("Error en el registro:", error));
+        }
+    </script>
+</body>
+</html>
