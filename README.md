@@ -34,8 +34,39 @@ sudo systemctl restart httpd
 sudo certbot --apache -d spring-framework-server.duckdns.org
 
 pasar jar a EC2
+<plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>3.2.2</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>edu.escuelaing.arep.App.Secureweb</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      
 - scp -i "KeyProperty.pem" "C:\Users\Mauricio Monroy\AREP\AREP-Taller-6\target\AREP-Taller-6-1.0-SNAPSHOT.jar" ec2-user@54.243.25.146:/home/ec2-user/
 
 
 sudo yum install -y java-21-amazon-corretto-devel
+- nohup java -jar AREP-Taller-6-1.0-SNAPSHOT.jar --server.port=8080 > log.out 2>&1 &
+- tail -f log.out
+
+
+
 
