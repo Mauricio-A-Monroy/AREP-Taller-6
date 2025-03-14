@@ -68,5 +68,31 @@ sudo yum install -y java-21-amazon-corretto-devel
 - tail -f log.out
 
 
+sudo nano /etc/httpd/conf.d/spring-framework-server-le-ssl.conf
+<IfModule mod_ssl.c>
+<VirtualHost *:443>
+    ServerName spring-framework-server.duckdns.org
+    DocumentRoot /var/www/html
+
+    <Directory /var/www/html>
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog /var/log/httpd/spring-framework-server_error.log
+    CustomLog /var/log/httpd/spring-framework-server_access.log combined
+
+ProxyPass "/api/" "http://localhost:8080/"
+ProxyPassReverse "/api/" "http://localhost:8080/"
+
+SSLCertificateFile /etc/letsencrypt/live/spring-framework-server.duckdns.org/fullchain.pem
+SSLCertificateKeyFile /etc/letsencrypt/live/spring-framework-server.duckdns.org/privkey.pem
+Include /etc/letsencrypt/options-ssl-apache.conf
+</VirtualHost>
+</IfModule>
+
+
+
+
 
 
