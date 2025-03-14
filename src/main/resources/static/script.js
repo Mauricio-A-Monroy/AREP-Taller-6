@@ -56,7 +56,7 @@ function saveProperty(e) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(propertyData),
     })
-    .then(() => window.location.href = "index.html")
+    .then(() => window.location.href = "home.html")
     .catch(error => console.error("Error al guardar la propiedad:", error));
 }
 

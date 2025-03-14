@@ -23,9 +23,20 @@ public class UserController {
             String email = userData.get("email");
             String password = userData.get("password");
             User newUser = userService.registerUser(email, password);
-            return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+
+            // Respuesta con "success": true
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "Registro exitoso");
+            response.put("user", newUser); // Opcional, si quieres devolver el usuario creado
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("success", false);
+            errorResponse.put("message", e.getMessage());
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 
@@ -35,14 +46,19 @@ public class UserController {
         String password = userData.get("password");
 
         if (userService.authenticateUser(email, password)) {
-            Map<String, String> response = new HashMap<>();
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
             response.put("message", "Login exitoso");
+
             return ResponseEntity.ok(response);
         } else {
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Credenciales incorrectas");
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("success", false);
+            errorResponse.put("message", "Credenciales incorrectas");
+
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         }
     }
+
 
 }

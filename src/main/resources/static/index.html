@@ -48,14 +48,14 @@
         });
         
         function login(email, password) {
-            fetch("/login", {
+            fetch("/auth/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password })
             })
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
+                if (data.success){
                     window.location.href = "home.html";
                 } else {
                     alert("Credenciales incorrectas");
@@ -65,7 +65,8 @@
         }
         
         function register(email, password) {
-            fetch("/register", {
+            console.log(email, password);
+            fetch("/auth/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password })
@@ -75,6 +76,8 @@
                 if (data.success) {
                     alert("Registro exitoso. Ahora puedes iniciar sesión");
                     toggleForm();
+                }else if (data.message === "El email ya está en uso.") {
+                    alert("El email ya está en uso");
                 } else {
                     alert("Error en el registro");
                 }
