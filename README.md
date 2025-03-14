@@ -1,16 +1,32 @@
-# Despliegue de Backend y Frontend en EC2 con Apache y Certbot
+# Secure Application Design - Enterprise Architecture Workshop
 
-Este documento detalla los pasos para desplegar una aplicación **Spring Boot** en un servidor **EC2**, utilizando **Apache HTTP Server** como servidor web y **Certbot** para configurar SSL.
+## Resumen del Proyecto
 
-## Requisitos Previos
+Este proyecto consiste en el diseño y despliegue de una aplicación segura y escalable en AWS. La arquitectura incluye dos servidores principales:
 
-- Instancia EC2 (Amazon Linux 2 o similar)
-- Dominio configurado con **DuckDNS**
-- Clave de acceso **.pem** para conectarse a la instancia
-- Java instalado en la instancia
-- Maven configurado en tu máquina local
+1. **Servidor Apache:** Encargado de servir el cliente asíncrono (HTML + JavaScript) a través de una conexión segura con TLS.
+2. **Servidor Spring Boot:** Responsable de los servicios backend, exponiendo endpoints REST protegidos con TLS.
 
----
+## Arquitectura del Sistema
+
+El sistema consta de los siguientes componentes:
+
+- **Frontend:** Aplicación web en HTML, CSS y JavaScript, comunicándose con el backend mediante fetch.
+- **Backend:** API REST en Java con Spring Boot.
+- **Base de Datos:** Se puede utilizar MySQL o PostgreSQL para almacenar usuarios y datos de la aplicación.
+- **Seguridad:** Implementación de TLS con certificados de Let's Encrypt y autenticación segura con contraseñas hasheadas.
+- **Despliegue en AWS:** Los servicios están desplegados en instancias EC2 separadas para Apache y Spring Boot.
+
+## Diagrama de Arquitectura
+
+![diagrama despliegue](https://github.com/user-attachments/assets/22b12537-635d-45cf-9ea1-58e1140001b2)
+
+
+## Seguridad Implementada
+
+1. **TLS Encryption:** Certificados TLS de Let's Encrypt para Apache y Spring Boot.
+2. **Autenticación Segura:** Hashing de contraseñas antes de almacenarlas en la base de datos.
+3. **Configuración de Firewall:** Reglas en AWS para permitir solo conexiones seguras.
 
 ## Configuración del Servidor Apache
 
@@ -127,7 +143,7 @@ tail -f log.out
 
 ---
 
-## 🌍 Desplegar el Frontend en Apache
+## Desplegar el Frontend en Apache
 
 ### 1. Copiar los archivos estáticos a EC2
 ```sh
@@ -197,7 +213,22 @@ sudo kill -9 <PID>
 
 ---
 
+## Pruebas
+
+![image](https://github.com/user-attachments/assets/7b98aef3-cea9-4e94-9445-aca26a64b51d)
+
+
+## Video de Despliegue
+
+[Ver Video](https://www.youtube.com/watch?v=cCsB76NrJMI)
+
+## Repositorio
+
+Todo el código está disponible en [GitHub](https://github.com/tu-repositorio).
+
+
+
 ## Conclusión
 
-Con estos pasos, tienes un **backend en Spring Boot** corriendo en **EC2**, con un **frontend estático servido por Apache** y un **certificado SSL configurado con Certbot**. 🚀
+Con estos pasos, tienes un **backend en Spring Boot** corriendo en **EC2**, con un **frontend estático servido por Apache** y un **certificado SSL configurado con Certbot**. 
 
